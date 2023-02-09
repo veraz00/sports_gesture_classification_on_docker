@@ -21,7 +21,7 @@ from wtfml.engine import Engine
 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "/home/abhishek/app/static"
+UPLOAD_FOLDER = "/home/linlin/app/static"
 DEVICE = "cpu"
 MODEL = None
 
