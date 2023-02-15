@@ -5,7 +5,7 @@
 import os
 import torch
 
-import albumentations
+import albumentations as A
 import pretrainedmodels
 
 import numpy as np
@@ -15,72 +15,49 @@ from flask import Flask
 from flask import request
 from flask import render_template
 from torch.nn import functional as F
+import json 
 
-from wtfml.data_loaders.image import ClassificationLoader
-from wtfml.engine import Engine
-
+from create_model import * 
+from create_dataset import * 
 
 app = Flask(__name__)
-UPLOAD_FOLDER = "/home/linlin/app/static"
-DEVICE = "cpu"
-MODEL = None
+UPLOAD_FOLDER = "/home/linlin/ll_docker/melanoma-deep-learning/static"
+DEVICE = "cuda"
+model_path = 'Densenet121_sports_classification.pt'
 
 
-class SEResNext50_32x4d(nn.Module):
-    def __init__(self, pretrained="imagenet"):
-        super(SEResNext50_32x4d, self).__init__()
-        self.base_model = pretrainedmodels.__dict__[
-            "se_resnext50_32x4d"
-        ](pretrained=pretrained)
-        self.l0 = nn.Linear(2048, 1)
+label_path = 'label.json'
+label_list = list(json.load(open(label_path)).keys())
+print('label_list: ', label_list)
 
-    def forward(self, image, targets):
-        bs, _, _, _ = image.shape
-        x = self.base_model.features(image)
-        x = F.adaptive_avg_pool2d(x, 1)
-        x = x.reshape(bs, -1)
-        out = torch.sigmoid(self.l0(x))
-        loss = 0
-        return out, loss
 
 
 def predict(image_path, model):
     mean = (0.485, 0.456, 0.406)
     std = (0.229, 0.224, 0.225)
 
-    test_aug = albumentations.Compose(
-        [
-            albumentations.Normalize(mean, std, max_pixel_value=255.0, always_apply=True),
-        ]
+    test_datasets = Custom_dataset(
+        image_list = [image_path], \
+        label_list = [0], \
+        transform=image_transforms['test']
     )
-
-    test_images = [image_path]
-    test_targets = [0]
-
-    test_dataset = ClassificationLoader(
-        image_paths=test_images,
-        targets=test_targets,
-        resize=None,
-        augmentations=test_aug
-    )
+    print('len of test_dataset: ', len(test_datasets))
 
     test_loader = torch.utils.data.DataLoader(
-        test_dataset,
+        test_datasets,
         batch_size=1,
         shuffle=False,
         num_workers=0
     )
-
-    predictions = Engine.predict(
-        test_loader,
-        model,
-        DEVICE
-    )
-    return np.vstack((predictions)).ravel()
+    for img, label in test_loader:
+        img = img.to(DEVICE)
+        _, out = model(img)  # out.shape = batchsize, num_classes
+        predict_label = torch.argmax(out, dim = -1)  # batch, 1
+        return predict_label.item()
 
 
 @app.route("/", methods=["GET", "POST"])
-def upload_predict():
+def upload_predict():   
     if request.method == "POST":
         image_file = request.files["image"]
         if image_file:
@@ -89,13 +66,16 @@ def upload_predict():
                 image_file.filename
             )
             image_file.save(image_location)
-            pred = predict(image_location, MODEL)[0]
-            return render_template("index.html", prediction=pred, image_loc=image_file.filename)
-    return render_template("index.html", prediction=0, image_loc=None)
+            pred_index = predict(image_location, MODEL)  # label index
+            pred_label = label_list[pred_index]
+            print('prediction result: ', pred_index, pred_label)
+            return render_template("index.html", prediction=pred_label, label = pred_index, image_loc=image_file.filename)
+    return render_template("index.html", image_loc=None)
 
 
 if __name__ == "__main__":
-    MODEL = SEResNext50_32x4d(pretrained=None)
-    MODEL.load_state_dict(torch.load("model.bin", map_location=torch.device(DEVICE)))
+    MODEL = DenseNet121(num_class= len(label_list))
+    model_state = torch.load(model_path, map_location = torch.device(DEVICE))['weight']
+    MODEL.load_state_dict(model_state)
     MODEL.to(DEVICE)
     app.run(host="0.0.0.0", port=12000, debug=True)

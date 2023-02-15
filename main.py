@@ -1,12 +1,12 @@
 import os
 import torch
-import torchvision.models as models 
+
 import torch.nn as nn
 from torch.nn import functional as F
-from torchvision import transforms, datasets 
+
 from torch import cuda
 from torch.utils.data import DataLoader, Dataset
-
+from torchmetrics import ConfusionMatrix
 import pretrainedmodels
 import numpy as np
 import pandas as pd
@@ -16,71 +16,12 @@ from sklearn import metrics
 
 from PIL import Image # only  get 
 import cv2
-import albumentations as A 
+import json
 from tqdm import tqdm
 # https://www.kaggle.com/datasets/gpiosenka/sports-classification/code
 
-class DenseCrossEntropy(nn.Module):
-    # Taken from:
-    # https://www.kaggle.com/pestipeti/plant-pathology-2020-pytorch
-    def __init__(self):
-        super(DenseCrossEntropy, self).__init__()
-
-    def forward(self, logits, labels):
-        logits = logits.float()
-        labels = labels.float()
-
-        logprobs = F.log_softmax(logits, dim=-1)
-
-        loss = -labels * logprobs
-        loss = loss.sum(-1)
-
-        return loss.mean()
-
-
-
-# import ssl
-# ssl._create_default_https_context = ssl._create_unverified_context
-
-# from torch.utils.data.dataloader import DataLoader
-
-
-class DenseNet121(nn.Module):
-    def __init__(self, num_class = 2):
-        super(DenseNet121, self).__init__()
-        dense_net = models.densenet121(pretrained = True)
-        self.features = dense_net.features 
-        self.fc = nn.Linear(in_features = dense_net.classifier.in_features, out_features = num_class)
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1)) 
-    def forward(self, x):
-        x = self.features(x)  # bs, 1024, 7, 7
-        x = nn.ReLU(inplace = True)(x)
-        x = self.avgpool(x).view(x.size(0), -1)  # bs, 1024
-        
-        out = torch.softmax(self.fc(x), dim = 1)
-        return x, out 
-
-class Custom_dataset(Dataset):
-    def __init__(self, image_list, label_list, transform = None):
-        self.image_list = image_list
-        self.label_list = label_list 
-        self.transform = transform 
-        assert len(image_list) == len(label_list), "The number of images is not equal to the number of labels"
-    
-    def __getitem__(self, index):
-        image = cv2.imread(self.image_list[index]) #if cv2: cannot use pytorch.transpose
-        label = self.label_list[index]
-
-        if self.transform is not None:
-            # print('self.transform: ', self.transform)
-            image = self.transform(image = image)['image']
-        image=np.transpose(image,(2, 1, 0))
-        return image, label
-
-    def __len__(self):
-        return len(self.image_list)
-
- 
+from create_model import *
+from create_dataset import *
 
 def train(fold = 0):
     training_data_path = "/home/linlin/dataset/sports_kaggle/"
@@ -92,36 +33,26 @@ def train(fold = 0):
     # df = pd.read_csv(os.path.join(train_data_path, 'sports_with_fold.csv'))
 
     target_dict = {vv:i for i, vv in enumerate(df.labels.unique())}  # 100
+    with open('label.json', 'w') as ff:
+        json.dump(target_dict, ff)
     # print('len of target_dict: ', len(target_dict))
     df['labels_index'] = -1
     df['labels_index'] = df['labels'].apply(lambda x: target_dict[x])
 
 
     df = df[df['data set'] == 'train']
-    device = "cpu" 
-    num_epochs = 3
+    # device = "cpu" 
+    device = 'cuda'
+    num_epochs = 50
     train_bs = 8
     valid_bs = 8
-    mean = (0.485, 0.456, 0.406)
-    std = (0.229, 0.224, 0.225)
+
     best_auc_score = 0.6
     saved_path = 'Densenet121_sports_classification.pt'
 
 
     df_train = df[df.kfold != fold].reset_index(drop=True)
     df_valid = df[df.kfold == fold].reset_index(drop=True)
-    image_transforms = {'train': A.Compose([
-    A.Resize(height = 224, width = 224, always_apply = True),
-    A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True),
-    A.ShiftScaleRotate(shift_limit=0.0625, scale_limit=0.1, rotate_limit=15),
-    A.Flip(p=0.5)
-    ]), 
-    'valid': A.Compose([
-    A.Resize(height = 224, width = 224, always_apply = True),
-    A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True)
-    ])
-    }
-
 
     train_images = df_train.filepaths.values.tolist()
     train_images = [os.path.join(training_data_path, i) for i in train_images]
@@ -185,7 +116,7 @@ def train(fold = 0):
                             labels = labels.to(device, dtype = torch.long)
         
                         # Forward
-                        features, out = model(imgs)  # out.shape = bs, 100
+                        _, out = model(imgs)  # out.shape = bs, 100
                         loss = criterion(out, labels)
 
                         # backward + optimize only if in training phase
@@ -204,12 +135,10 @@ def train(fold = 0):
                 # print('predict_result.shape: ', predict_result.shape)
                 ground_truth = np.concatenate(ground_truth)
                 # print('groudth_shape: ', ground_truth.shape)
-                from torchmetrics import ConfusionMatrix
+
                 confmat = ConfusionMatrix(task = 'multiclass', num_classes = len(target_dict))
                 maxtric_result = confmat(torch.tensor(predict_result), torch.tensor(ground_truth))
-                epoch_auc_score = torch.trace(maxtric_result) / torch.sum(maxtric_result)
-
-                # confusion_matrix = metrics.confusion_matrix(ground_truth, predict_result, multi_class = 'ovo')
+                epoch_auc_score = torch.trace(maxtric_result) / torch.sum(maxtric_result).item()
                                 
                 # print(f"epoch={epoch}, stage = {phase}, auc={round(epoch_auc_score, 4)}")
                 if epoch_auc_score > best_auc_score:
@@ -218,11 +147,15 @@ def train(fold = 0):
                                 'weight': model.state_dict(),
                                 'optimizer': optimizer.state_dict(),
                                 'loss': epoch_loss,
+                                'epoch_auc_score': epoch_auc_score
                                 }, saved_path)
                     best_auc_score = epoch_auc_score
+                else:
+                    print(f'Keep the previous best model weight: {round(epoch_auc_score, 4)}')
 
                 scheduler.step(epoch_auc_score)
-                pbar.set_postfix(**{"stage": phase, "lr": optimizer.param_groups[0]['lr'], "(batch) loss": epoch_loss, "epoch_auc_score":epoch_auc_score })
+                pbar.set_postfix(**{"stage": phase, "lr": optimizer.param_groups[0]['lr'], \
+                                "(batch) loss": round(epoch_loss, 4), "epoch_auc_score":round(epoch_auc_score, 4)})
 
 if __name__ == "__main__":
     fake_image = torch.randn(16, 3, 224, 224)
