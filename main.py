@@ -23,10 +23,13 @@ from tqdm import tqdm
 from create_model import *
 from create_dataset import *
 
-def train(fold = 0):
-    training_data_path = "/home/linlin/dataset/sports_kaggle/"
-    model_path = "./"
-    df = pd.read_csv("/home/linlin/dataset/sports_kaggle/sports_with_fold.csv")
+def train(args):
+    fold = args.fold 
+    pretrained_model = args.pretrained_model
+    training_data_path = args.parent_dataset_dir 
+    csv_filename = args.csv_filename
+
+    df = pd.read_csv(os.path.join(training_data_path, csv_filename))
 
     # train_data_path = "/home/linlin/data"
     # model_path = './'
@@ -69,17 +72,30 @@ def train(fold = 0):
     trainimages, trainlabels = next(iter(data_loaders['train']))
 
 
-    model = DenseNet121(num_class= len(target_dict)).to(device)
-
+    model = DenseNet121(num_class= len(target_dict)).to(device)    
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer,
         patience=3,
         mode="max"
     )
+    best_auc_score = 0.0
+    if pretrained_model:
+        pretrained_model = torch.load(pretrained_model)
+        print('pretrained_model.dict: ', pretrained_model.keys())
+        model.load_state_dict(pretrained_model['weight'])
+        optimizer.load_state_dict(pretrained_model['optimizer'])
+        scheduler.load_state_dict(pretrained_model['scheduler'])
+        best_auc_score = pretrained_model['epoch_auc_score']
+        print(f'load pretrained model with {best_auc_score}')
+
+
+
+
 
     criterion = nn.CrossEntropyLoss(weight = None).cuda()
-    best_auc_score = 0.5
+    
+
     for epoch in range(num_epochs):
         # print('Epoch {}/{}'.format(epoch, num_epochs))
         print('-' * 20)
@@ -138,28 +154,39 @@ def train(fold = 0):
 
                 confmat = ConfusionMatrix(task = 'multiclass', num_classes = len(target_dict))
                 maxtric_result = confmat(torch.tensor(predict_result), torch.tensor(ground_truth))
-                epoch_auc_score = torch.trace(maxtric_result) / torch.sum(maxtric_result).item()
+                epoch_auc_score = (torch.trace(maxtric_result) / torch.sum(maxtric_result)).item()
                                 
                 # print(f"epoch={epoch}, stage = {phase}, auc={round(epoch_auc_score, 4)}")
-                if epoch_auc_score > best_auc_score:
+                if epoch_auc_score > best_auc_score and phase == 'valid':
                     torch.save({
                                 'epoch': epoch,
                                 'weight': model.state_dict(),
                                 'optimizer': optimizer.state_dict(),
-                                'loss': epoch_loss,
+                                'scheduler': scheduler.state_dict(), 
                                 'epoch_auc_score': epoch_auc_score
                                 }, saved_path)
                     best_auc_score = epoch_auc_score
                 else:
-                    print(f'Keep the previous best model weight: {round(epoch_auc_score, 4)}')
+                    print(f'Keep the previous best model weight: {round(best_auc_score, 4)}')
 
                 scheduler.step(epoch_auc_score)
                 pbar.set_postfix(**{"stage": phase, "lr": optimizer.param_groups[0]['lr'], \
                                 "(batch) loss": round(epoch_loss, 4), "epoch_auc_score":round(epoch_auc_score, 4)})
 
 if __name__ == "__main__":
-    fake_image = torch.randn(16, 3, 224, 224)
-    model = DenseNet121(num_class= 100)
-    output, loss = model(fake_image,)
-    print('output_size: ', output.shape, output[0][0])
-    train(fold=0)
+    # fake_image = torch.randn(16, 3, 224, 224)
+    # model = DenseNet121(num_class= 100)
+    # output, loss = model(fake_image,)
+    # print('output_size: ', output.shape, output[0][0])
+    import argparse
+    parser = argparse.ArgumentParser('Args for training sport gesture detection')
+    parser.add_argument('--parent_dataset_dir', type = str, default = '/home/linlin/dataset/sports_kaggle/')
+    parser.add_argument('--csv_filename', type = str, help = 'csv file for dataset', default = 'sports_with_fold.csv')
+    parser.add_argument('--fold', type = int, default = 0, help = 'fold usd for validation')
+    
+    
+    parser.add_argument('--pretrained_model', type = str)
+    
+    args = parser.parse_args()
+
+    train(args)
