@@ -17,7 +17,7 @@ Added comments for better readability.
 `tensorboard --logdir=mela_api`
 
 ## flask 
-- add image check 
+- 
 
 ## docker 
 - run train 

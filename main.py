@@ -21,24 +21,7 @@ from tqdm import tqdm
 
 from create_model import *
 from create_dataset import *
-
-def set_logger(file_name = 'record.log'):
-
-    logging.basicConfig(filename=f'{file_name}', \
-                        filemode='w',\
-                        format='%(asctime)s,%(msecs)03d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s', \
-                        datefmt='%Y-%b-%d:%H:%M:%S', \
-                        level=logging.DEBUG)  # format: {name}s-- would be the logger name
-
-    logger = logging.getLogger('mela_api')
-
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.DEBUG)
-    logger.addHandler(handler)
-
-    return logger 
-
-
+from utils import *
 
 
 

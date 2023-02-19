@@ -8,7 +8,7 @@ columns:
   split: data set  # split: fold
   fold: False # 
 parent_dataset_dir:  /home/linlin/dataset/sports_kaggle/
-saved_label_path: ./label.json
+saved_label_path: ./label.json # used in api
 
 
 
@@ -20,7 +20,7 @@ valid:
   batch_size: 16
 
 pretrained_model_path: ./Densenet121_sports_classification.pt
-saved_model_path: ./Densenet121_sports_classification.pt
+saved_model_path: ./Densenet121_sports_classification.pt # used in api
 learning_rate: 1e-3 
 epochs: 100
 numpy_test: False
@@ -28,3 +28,9 @@ numpy_test: False
 tensorboard_name: mela_api 
 device: cuda
 numpy_test: False
+
+
+# flask
+API:
+  upload_folder: /home/linlin/ll_docker/melanoma-deep-learning/static
+  device: cuda 

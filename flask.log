@@ -1,0 +1,17 @@
+2023-Feb-19:17:36:10,813 INFO     [api.py:101] get args: Namespace(config='basic.yml')
+2023-Feb-19:17:36:10,815 INFO     [api.py:107] label_list: air hockey ampute football archery arm wrestling axe throwing balance beam barell racing baseball basketball baton twirling bike polo billiards bmx bobsled bowling boxing bull riding bungee jumping canoe slamon cheerleading chuckwagon racing cricket croquet curling disc golf fencing field hockey figure skating men figure skating pairs figure skating women fly fishing football formula 1 racing frisbee gaga giant slalom golf hammer throw hang gliding harness racing high jump hockey horse jumping horse racing horseshoe pitching hurdles hydroplane racing ice climbing ice yachting jai alai javelin jousting judo lacrosse log rolling luge motorcycle racing mushing nascar racing olympic wrestling parallel bar pole climbing pole dancing pole vault polo pommel horse rings rock climbing roller derby rollerblade racing rowing rugby sailboat racing shot put shuffleboard sidecar racing ski jumping sky surfing skydiving snow boarding snowmobile racing speed skating steer wrestling sumo wrestling surfing swimming table tennis tennis track bicycle trapeze tug of war ultimate uneven bars volleyball water cycling water polo weightlifting wheelchair basketball wheelchair racing wingsuit flying
+2023-Feb-19:17:36:10,815 INFO     [api.py:111] upload_folder: /home/linlin/ll_docker/melanoma-deep-learning/static, device: cuda
+2023-Feb-19:17:36:11,682 INFO     [api.py:118] Loaded model!
+2023-Feb-19:17:36:11,684 WARNING  [_internal.py:224]  * Debugger is active!
+2023-Feb-19:17:36:11,684 INFO     [_internal.py:224]  * Debugger PIN: 447-947-562
+2023-Feb-19:17:36:13,859 INFO     [api.py:76] saved_image: /home/linlin/ll_docker/melanoma-deep-learning/static/1.jpg
+2023-Feb-19:17:36:13,866 INFO     [api.py:81] passed the image check
+2023-Feb-19:17:36:14,520 INFO     [api.py:76] saved_image: /home/linlin/ll_docker/melanoma-deep-learning/static/1.jpg
+2023-Feb-19:17:36:14,520 INFO     [api.py:81] passed the image check
+2023-Feb-19:17:36:14,537 INFO     [api.py:87] prediction result: 73, shot put
+2023-Feb-19:17:36:14,539 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "POST / HTTP/1.1" 200 -
+2023-Feb-19:17:36:14,545 INFO     [api.py:87] prediction result: 73, shot put
+2023-Feb-19:17:36:14,546 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "POST / HTTP/1.1" 200 -
+2023-Feb-19:17:36:14,565 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "[36mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+2023-Feb-19:17:36:14,568 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "[36mGET /static/css/form_upload.css HTTP/1.1[0m" 304 -
+2023-Feb-19:17:36:14,571 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "GET /static/1.jpg HTTP/1.1" 200 -
