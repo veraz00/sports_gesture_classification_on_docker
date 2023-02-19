@@ -28,14 +28,11 @@ model_path = 'Densenet121_sports_classification.pt'
 
 label_path = 'label.json'
 label_list = list(json.load(open(label_path)).keys())
-print('label_list: ', label_list)
+# print('label_list: ', label_list)
 
 
 
 def predict(image_path, model):
-    mean = (0.485, 0.456, 0.406)
-    std = (0.229, 0.224, 0.225)
-
     test_datasets = Custom_dataset(
         image_list = [image_path], \
         label_list = [0], \
@@ -53,6 +50,7 @@ def predict(image_path, model):
         img = img.to(DEVICE)
         _, out = model(img)  # out.shape = batchsize, num_classes
         predict_label = torch.argmax(out, dim = -1)  # batch, 1
+        print('predict result', predict_label.item(), label_list[predict_label.item()])
         return predict_label.item()
 
 
@@ -68,7 +66,7 @@ def upload_predict():
             image_file.save(image_location)
             pred_index = predict(image_location, MODEL)  # label index
             pred_label = label_list[pred_index]
-            print('prediction result: ', pred_index, pred_label)
+            # print('prediction result: ', pred_index, pred_label)
             return render_template("index.html", prediction=pred_label, label = pred_index, image_loc=image_file.filename)
     return render_template("index.html", image_loc=None)
 
@@ -78,4 +76,5 @@ if __name__ == "__main__":
     model_state = torch.load(model_path, map_location = torch.device(DEVICE))['weight']
     MODEL.load_state_dict(model_state)
     MODEL.to(DEVICE)
-    app.run(host="0.0.0.0", port=12000, debug=True)
+    # app.run(host="0.0.0.0", port=12000, debug=True)
+    predict(image_path = '/home/linlin/ll_docker/melanoma-deep-learning/static/002.jpg', model = MODEL)

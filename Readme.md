@@ -2,17 +2,30 @@ https://www.youtube.com/watch?v=Kzrfw-tAZew
 https://github.com/abhishekkrthakur/melanoma-deep-learning
 
 
-
-```
-git clone --branch 22.06-dev https://github.com/NVIDIA/apex.git
-cd apex
-python setup.py install
-```
 ## training
+
 - add tensorboard for training 
 - improve training code 
+  - improve the model structure 
+Added a validation set for monitoring performance on unseen data.
+Added a check to ensure that the device is set to GPU if available, otherwise use the CPU.
+Added the option to resume training from a checkpoint.
+Moved the training loop into a function that takes in the model, loss function, optimizer, data loaders, and other hyperparameters as arguments.
+Added comments for better readability.
 - overfitting 
 
+`tensorboard --logdir=mela_api`
+
+## flask 
+- add image check 
+
+## docker 
+- run train 
+- run flask
+- docker
+  - run it with gpu, 
+  - create a new one using current script 
+  - get a docker image with well-training using current script 
 
 ## Error 
 ### Training model

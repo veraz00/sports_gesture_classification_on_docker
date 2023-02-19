@@ -1,3 +1,5 @@
 **/apex
 **/mela_env
 **__pycache__**
+**/**.pt
+**/**.tar

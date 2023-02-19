@@ -1,0 +1,30 @@
+# dataset 
+
+csv_file_path: /home/linlin/dataset/sports_kaggle/sports.csv
+classes: 100
+columns:
+  images: filepaths 
+  labels: labels 
+  split: data set  # split: fold
+  fold: False # 
+parent_dataset_dir:  /home/linlin/dataset/sports_kaggle/
+saved_label_path: ./label.json
+
+
+
+# train  # 2 spaces
+
+train:
+  batch_size: 16
+valid:
+  batch_size: 16
+
+pretrained_model_path: ./Densenet121_sports_classification.pt
+saved_model_path: ./Densenet121_sports_classification.pt
+learning_rate: 1e-3 
+epochs: 100
+numpy_test: False
+
+tensorboard_name: mela_api 
+device: cuda
+numpy_test: False
