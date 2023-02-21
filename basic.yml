@@ -15,8 +15,12 @@ saved_label_path: ./label.json # used in api
 # train  # 2 spaces
 
 train:
+  width: 224
+  height: 224
   batch_size: 16
 valid:
+  width: 224
+  height: 224
   batch_size: 16
 
 pretrained_model_path: ./Densenet121_sports_classification.pt
@@ -26,11 +30,27 @@ epochs: 100
 numpy_test: False
 
 tensorboard_name: mela_api 
-device: cuda
+device: cpu
 numpy_test: False
 
 
 # flask
 API:
-  upload_folder: /home/linlin/ll_docker/melanoma-deep-learning/static
-  device: cuda 
+  upload_folder: ./static
+  device: cpu
+  width: 416
+  height: 416 
+  
+onnx:
+  use_onnx: True
+  saved_onnx_path: ./Densenet121_sports_classification.onnx
+
+
+
+
+# tensorrt 
+tensorrt:
+  width: 416
+  height: 416
+  device: cuda
+  trt_model_path: ./Densenet121_sports_classification.ts
