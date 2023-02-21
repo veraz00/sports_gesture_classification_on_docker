@@ -7,22 +7,25 @@ import numpy as np
 
 mean = (0.485, 0.456, 0.406)
 std = (0.229, 0.224, 0.225)
-image_transforms = {
-    'train': A.Compose([
-    A.Resize(height = 224, width = 224, always_apply = True),
-    A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True),
-    A.ShiftScaleRotate(shift_limit=0.0625, scale_limit=0.1, rotate_limit=15),
-    A.Flip(p=0.5)
-    ]), 
-    'valid': A.Compose([
-    A.Resize(height = 224, width = 224, always_apply = True),
-    A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True)
-    ]),
-    'test': A.Compose([
-    A.Resize(height = 224, width = 224, always_apply = True),
-    A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True)
-    ]),
-}
+
+def image_transforms(height, width, phase):
+    image_transforms = {
+        'train': A.Compose([
+        A.Resize(height, width, always_apply = True),
+        A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True),
+        A.ShiftScaleRotate(shift_limit=0.0625, scale_limit=0.1, rotate_limit=15),
+        A.Flip(p=0.5)
+        ]), 
+        'valid': A.Compose([
+        A.Resize(height, width, always_apply = True),
+        A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True)
+        ]),
+        'test': A.Compose([
+        A.Resize(height, width, always_apply = True),
+        A.Normalize(mean, std, max_pixel_value=255.0, always_apply=True)
+        ]),
+    }
+    return image_transforms[phase]
 
 class Custom_dataset(Dataset):
     def __init__(self, image_list, label_list, transform = None):

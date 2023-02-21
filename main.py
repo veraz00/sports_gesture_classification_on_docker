@@ -1,5 +1,6 @@
 import os
 import logging 
+import pprint
 
 import torch
 import torch.nn as nn
@@ -143,7 +144,7 @@ def generate_images_labels_from_csv(df, parent_data_dir, target_dict, label_colu
 
 def main(args):
     logger = set_logger(file_name= 'record.log')
-    logging.info("Input args: %r", args)
+    # logging.info("Input args: %r", args)
 # The %s specifier converts the object using str(), and %r converts it using repr().
 # but repr() is special that is valid Python syntax, which could be used to unambiguously \
 # recreate the object it represents, like keeping \n.
@@ -155,6 +156,9 @@ def main(args):
 
     with open(args.config, 'r') as ff:
         cfg = yaml.safe_load(ff)
+
+    logger.info(pprint.pformat(args))
+    logger.info(pprint.pformat(cfg))
 
 
     parent_data_dir = cfg['parent_dataset_dir'] 
@@ -193,8 +197,10 @@ def main(args):
 
 
 
-    train_datasets = Custom_dataset(image_list = train_images, label_list = train_targets, transform = image_transforms['train'])
-    valid_datasets = Custom_dataset(image_list = valid_images, label_list = valid_targets, transform = image_transforms['valid'])
+    train_datasets = Custom_dataset(image_list = train_images, label_list = train_targets, \
+                    transform = image_transforms(height = cfg['train']['height'], width = cfg['train']['width'], phase = 'train'))
+    valid_datasets = Custom_dataset(image_list = valid_images, label_list = valid_targets, \
+                    transform = image_transforms(height = cfg['valid']['height'], width = cfg['valid']['width'], phase = 'valid'))
     data_loaders = {'train': DataLoader(train_datasets, batch_size = batch_sizes['train'], shuffle = True), \
                   'valid': DataLoader(valid_datasets, batch_size = batch_sizes['valid'], shuffle = False)}
     # trainimages, trainlabels = next(iter(data_loaders['train']))
@@ -211,7 +217,7 @@ def main(args):
     best_acc_score = 0.0
 
     if cfg['pretrained_model_path']:
-        pretrained_model = torch.load(cfg['pretrained_model_path'])
+        pretrained_model = torch.load(cfg['pretrained_model_path'], map_location = device)
         logger.info('pretrained_model.dict: ', pretrained_model.keys())
         model.load_state_dict(pretrained_model['weight'])
         optimizer.load_state_dict(pretrained_model['optimizer'])
