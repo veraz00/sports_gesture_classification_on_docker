@@ -1,27 +1,21 @@
-https://www.youtube.com/watch?v=Kzrfw-tAZew
-https://github.com/abhishekkrthakur/melanoma-deep-learning
+# Sports Gesture Classification
 
 
+- modify readme
 ## training
-
-- add tensorboard for training 
-- improve training code 
-  - improve the model structure 
-Added a validation set for monitoring performance on unseen data.
-Added a check to ensure that the device is set to GPU if available, otherwise use the CPU.
-Added the option to resume training from a checkpoint.
-Moved the training loop into a function that takes in the model, loss function, optimizer, data loaders, and other hyperparameters as arguments.
-Added comments for better readability.
-- overfitting 
+- SwinTransformer: https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer
 
 `tensorboard --logdir=mela_api`
 
-## flask 
-- 
+
+## add flask
+`http://localhost:12000/`
+- convert it into tensorrt
+- to run it as tensorrt for prediction 
+
 
 ## docker 
-- run train 
-- run flask
+- run tensorboard 
 - docker
   - run it with gpu, 
   - create a new one using current script 
@@ -29,6 +23,7 @@ Added comments for better readability.
 
 ## Error 
 ### Training model
+1. Cuda error 
 ```
   File "/home/linlin/ll_docker/melanoma-deep-learning/mela_env/lib/python3.8/site-packages/torch/autograd/__init__.py", line 197, in backward
     Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
@@ -36,15 +31,15 @@ RuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasSgemm(
 ```
 - Solution: `unset LD_LIBRARY_PATH`
 
-unset LD_LIBRARY_PATH
-1. url perssion
+
+2. url perssion
 - Error: `urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1131)>`
 - Solution
 ```
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 ```
-2. get error: 
+3. get error:  ??
 ```
 docker: Error response from daemon: could not select device driver "" with capabilities: [[gpu]].
 ```
@@ -53,4 +48,8 @@ docker: Error response from daemon: could not select device driver "" with capab
 
 
 
+
+## Refer
+https://www.youtube.com/watch?v=Kzrfw-tAZew
+https://github.com/abhishekkrthakur/melanoma-deep-learning
 

@@ -2,7 +2,7 @@ import torchvision.models as models
 import torch.nn as nn 
 import torch 
 
-
+import timm 
 
 class DenseNet121(nn.Module):
     def __init__(self, num_class = 2):
@@ -18,3 +18,26 @@ class DenseNet121(nn.Module):
         
         out = torch.softmax(self.fc(x), dim = 1)
         return x, out 
+
+
+class SwinTransformer(nn.Module):
+    def __init__(self, num_class = 2):
+        super(SwinTransformer, self).__init__()
+        self.model = timm.create_model('swin_base_patch4_window7_224', pretrained=True)
+        self.model.head = nn.Sequential(
+            nn.Linear(1024, 512), 
+            nn.ReLU(),
+            nn.Dropout(0.3), 
+            nn.Linear(512, num_class)
+        )
+    
+    def forward(self, x):
+        out = torch.softmax(self.model(x), dim = 1)
+        return out, out 
+
+
+if __name__ == '__main__':
+    model = SwinTransformer()
+    sample = torch.randn(1, 3, 224, 224)
+    _, out = model(sample)
+    print('out.size: ', out.shape)

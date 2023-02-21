@@ -1,3 +1,5 @@
+import os 
+import glob
 import albumentations as A 
 from torch.utils.data import Dataset 
 import cv2 
@@ -34,6 +36,36 @@ class Custom_dataset(Dataset):
         self.transform = transform 
         assert len(image_list) == len(label_list), "The number of images is not equal to the number of labels"
     
+    def __getitem__(self, index):
+        image = cv2.imread(self.image_list[index]) #if cv2: cannot use pytorch.transpose
+        label = self.label_list[index]
+
+        if self.transform is not None:
+            # print('self.transform: ', self.transform)
+            image = self.transform(image = image)['image']
+        image=np.transpose(image,(2, 1, 0))
+        return image, label
+
+    def __len__(self):
+        return len(self.image_list)
+
+ 
+class Sports_Dataset(object):
+    def __init__(self, dataset_dir, labels, transform, phase = 'train'):
+        self.dataset_dir = dataset_dir
+        self.labels = sorted(labels)
+        self.transform = transform
+        self.phase = phase 
+        
+        self.image_list = []
+        self.label_list = []
+        for label in labels:
+            temp = os.path.join(self.dataset_dir, phase, label)
+            assert os.path.exists(temp), f"not exist {temp}"
+            self.image_list.extend(glob.glob(temp + '/*.*'))
+            self.label_list.extend([self.labels.index(label)] * len(os.listdir(temp)))
+            assert len(self.image_list) == len(self.label_list), f"The number of images is not equal to the number of labels"
+
     def __getitem__(self, index):
         image = cv2.imread(self.image_list[index]) #if cv2: cannot use pytorch.transpose
         label = self.label_list[index]

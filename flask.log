@@ -1,17 +1,50 @@
-2023-Feb-19:17:36:10,813 INFO     [api.py:101] get args: Namespace(config='basic.yml')
-2023-Feb-19:17:36:10,815 INFO     [api.py:107] label_list: air hockey ampute football archery arm wrestling axe throwing balance beam barell racing baseball basketball baton twirling bike polo billiards bmx bobsled bowling boxing bull riding bungee jumping canoe slamon cheerleading chuckwagon racing cricket croquet curling disc golf fencing field hockey figure skating men figure skating pairs figure skating women fly fishing football formula 1 racing frisbee gaga giant slalom golf hammer throw hang gliding harness racing high jump hockey horse jumping horse racing horseshoe pitching hurdles hydroplane racing ice climbing ice yachting jai alai javelin jousting judo lacrosse log rolling luge motorcycle racing mushing nascar racing olympic wrestling parallel bar pole climbing pole dancing pole vault polo pommel horse rings rock climbing roller derby rollerblade racing rowing rugby sailboat racing shot put shuffleboard sidecar racing ski jumping sky surfing skydiving snow boarding snowmobile racing speed skating steer wrestling sumo wrestling surfing swimming table tennis tennis track bicycle trapeze tug of war ultimate uneven bars volleyball water cycling water polo weightlifting wheelchair basketball wheelchair racing wingsuit flying
-2023-Feb-19:17:36:10,815 INFO     [api.py:111] upload_folder: /home/linlin/ll_docker/melanoma-deep-learning/static, device: cuda
-2023-Feb-19:17:36:11,682 INFO     [api.py:118] Loaded model!
-2023-Feb-19:17:36:11,684 WARNING  [_internal.py:224]  * Debugger is active!
-2023-Feb-19:17:36:11,684 INFO     [_internal.py:224]  * Debugger PIN: 447-947-562
-2023-Feb-19:17:36:13,859 INFO     [api.py:76] saved_image: /home/linlin/ll_docker/melanoma-deep-learning/static/1.jpg
-2023-Feb-19:17:36:13,866 INFO     [api.py:81] passed the image check
-2023-Feb-19:17:36:14,520 INFO     [api.py:76] saved_image: /home/linlin/ll_docker/melanoma-deep-learning/static/1.jpg
-2023-Feb-19:17:36:14,520 INFO     [api.py:81] passed the image check
-2023-Feb-19:17:36:14,537 INFO     [api.py:87] prediction result: 73, shot put
-2023-Feb-19:17:36:14,539 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "POST / HTTP/1.1" 200 -
-2023-Feb-19:17:36:14,545 INFO     [api.py:87] prediction result: 73, shot put
-2023-Feb-19:17:36:14,546 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "POST / HTTP/1.1" 200 -
-2023-Feb-19:17:36:14,565 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "[36mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 304 -
-2023-Feb-19:17:36:14,568 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "[36mGET /static/css/form_upload.css HTTP/1.1[0m" 304 -
-2023-Feb-19:17:36:14,571 INFO     [_internal.py:224] 127.0.0.1 - - [19/Feb/2023 17:36:14] "GET /static/1.jpg HTTP/1.1" 200 -
+2023-Feb-21:20:21:54,113 INFO     [api.py:124] Namespace(config='basic.yml')
+2023-Feb-21:20:21:54,113 INFO     [api.py:125] {'API': {'device': 'cpu',
+         'height': 224,
+         'upload_folder': './static',
+         'width': 224},
+ 'classes': 100,
+ 'columns': {'fold': False,
+             'images': 'filepaths',
+             'labels': 'labels',
+             'split': 'data set'},
+ 'csv_file_path': '/home/linlin/dataset/sports_kaggle/sports.csv',
+ 'device': 'cuda',
+ 'epochs': 10,
+ 'learning_rate': '1e-3',
+ 'model': 'SwinTransformer',
+ 'numpy_test': False,
+ 'onnx': {'saved_onnx_path': './SwinTransformer_sports_classification.onnx',
+          'use_onnx': True},
+ 'parent_dataset_dir': '/home/linlin/dataset/sports_kaggle/',
+ 'pretrained_model_path': './SwinTransformer_sports_classification.pt',
+ 'saved_label_path': './label.json',
+ 'saved_model_path': './SwinTransformer_sports_classification.pt',
+ 'tensorboard_name': 'mela_api',
+ 'train': {'batch_size': 8, 'height': 224, 'width': 224},
+ 'valid': {'batch_size': 16, 'height': 224, 'width': 224}}
+2023-Feb-21:20:21:54,113 INFO     [api.py:128] labels: air hockey ampute football archery arm wrestling axe throwing balance beam barell racing baseball basketball baton twirling bike polo billiards bmx bobsled bowling boxing bull riding bungee jumping canoe slamon cheerleading chuckwagon racing cricket croquet curling disc golf fencing field hockey figure skating men figure skating pairs figure skating women fly fishing football formula 1 racing frisbee gaga giant slalom golf hammer throw hang gliding harness racing high jump hockey horse jumping horse racing horseshoe pitching hurdles hydroplane racing ice climbing ice yachting jai alai javelin jousting judo lacrosse log rolling luge motorcycle racing mushing nascar racing olympic wrestling parallel bar pole climbing pole dancing pole vault polo pommel horse rings rock climbing roller derby rollerblade racing rowing rugby sailboat racing shot put shuffleboard sidecar racing ski jumping sky surfing skydiving snow boarding snowmobile racing speed skating steer wrestling sumo wrestling surfing swimming table tennis tennis track bicycle trapeze tug of war ultimate uneven bars volleyball water cycling water polo weightlifting wheelchair basketball wheelchair racing wingsuit flying
+2023-Feb-21:20:21:54,113 INFO     [api.py:132] upload_folder: ./static, device: cpu
+2023-Feb-21:20:21:55,187 INFO     [helpers.py:247] Loading pretrained weights from url (https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22kto1k.pth)
+2023-Feb-21:20:21:55,572 INFO     [api.py:139] Loaded SwinTransformer model!
+2023-Feb-21:20:21:55,572 INFO     [api.py:145] use SwinTransformer onnx model
+2023-Feb-21:20:21:56,649 WARNING  [_internal.py:224]  * Debugger is active!
+2023-Feb-21:20:21:56,650 INFO     [_internal.py:224]  * Debugger PIN: 724-385-750
+2023-Feb-21:20:21:58,045 INFO     [api.py:108] Get request
+2023-Feb-21:20:21:58,049 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:21:58] "GET / HTTP/1.1" 200 -
+2023-Feb-21:20:21:58,076 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:21:58] "[36mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+2023-Feb-21:20:21:58,076 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:21:58] "[36mGET /static/css/form_upload.css HTTP/1.1[0m" 304 -
+2023-Feb-21:20:22:02,050 INFO     [api.py:96] saved_image: ./static/1.jpg
+2023-Feb-21:20:22:02,053 INFO     [api.py:101] passed the image check
+2023-Feb-21:20:22:02,212 INFO     [api.py:105] prediction result: 39, harness racing
+2023-Feb-21:20:22:02,213 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:02] "POST / HTTP/1.1" 200 -
+2023-Feb-21:20:22:02,224 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:02] "[36mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+2023-Feb-21:20:22:02,227 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:02] "[36mGET /static/css/form_upload.css HTTP/1.1[0m" 304 -
+2023-Feb-21:20:22:02,228 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:02] "GET /static/1.jpg HTTP/1.1" 200 -
+2023-Feb-21:20:22:10,743 INFO     [api.py:96] saved_image: ./static/2.jpg
+2023-Feb-21:20:22:10,743 INFO     [api.py:101] passed the image check
+2023-Feb-21:20:22:10,960 INFO     [api.py:105] prediction result: 56, motorcycle racing
+2023-Feb-21:20:22:10,961 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:10] "POST / HTTP/1.1" 200 -
+2023-Feb-21:20:22:10,972 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:10] "[36mGET /static/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+2023-Feb-21:20:22:10,975 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:10] "[36mGET /static/css/form_upload.css HTTP/1.1[0m" 304 -
+2023-Feb-21:20:22:10,976 INFO     [_internal.py:224] 127.0.0.1 - - [21/Feb/2023 20:22:10] "GET /static/2.jpg HTTP/1.1" 200 -

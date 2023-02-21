@@ -13,24 +13,24 @@ saved_label_path: ./label.json # used in api
 
 
 # train  # 2 spaces
-
+model: SwinTransformer # DenseNet121
 train:
   width: 224
   height: 224
-  batch_size: 16
+  batch_size: 8
 valid:
   width: 224
   height: 224
   batch_size: 16
 
-pretrained_model_path: ./Densenet121_sports_classification.pt
-saved_model_path: ./Densenet121_sports_classification.pt # used in api
+pretrained_model_path: ./SwinTransformer_sports_classification.pt
+saved_model_path: ./SwinTransformer_sports_classification.pt # used in api
 learning_rate: 1e-3 
-epochs: 100
+epochs: 10
 numpy_test: False
 
 tensorboard_name: mela_api 
-device: cpu
+device: cuda
 numpy_test: False
 
 
@@ -38,19 +38,19 @@ numpy_test: False
 API:
   upload_folder: ./static
   device: cpu
-  width: 416
-  height: 416 
+  width: 224
+  height: 224   # swintransformer: need the same shape as the trained one 
   
 onnx:
   use_onnx: True
-  saved_onnx_path: ./Densenet121_sports_classification.onnx
+  saved_onnx_path: ./SwinTransformer_sports_classification.onnx
 
 
 
 
 # tensorrt 
-tensorrt:
-  width: 416
-  height: 416
-  device: cuda
-  trt_model_path: ./Densenet121_sports_classification.ts
+# tensorrt:
+#   width: 416
+#   height: 416
+#   device: cuda
+#   trt_model_path: ./Densenet121_sports_classification.ts

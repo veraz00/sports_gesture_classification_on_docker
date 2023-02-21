@@ -1,1 +1,5 @@
-# this is notes written on container 
+# pt vs onnx 
+    | -- | -- |
+     cpu     gpu
+pt 0.182    0.0219
+onnx 0.106  0.0386

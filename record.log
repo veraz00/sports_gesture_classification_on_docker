@@ -1,22 +1,35 @@
-2023-Feb-19:16:32:14,870 INFO     [main.py:163] Input args: Namespace(config='basic.yml')
-2023-Feb-19:16:32:14,882 INFO     [main.py:184] len of target_dict: 100
-2023-Feb-19:16:32:17,677 INFO     [main.py:237] load pretrained model with 0.136
-2023-Feb-19:16:32:17,678 INFO     [main.py:54] --------------------
-2023-Feb-19:16:34:34,277 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:34:36,234 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:34:36,234 INFO     [main.py:54] --------------------
-2023-Feb-19:16:39:21,627 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:39:31,150 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:39:31,151 INFO     [main.py:54] --------------------
-2023-Feb-19:16:43:57,547 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:43:59,439 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:43:59,440 INFO     [main.py:54] --------------------
-2023-Feb-19:16:48:51,688 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:48:53,588 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:48:53,589 INFO     [main.py:54] --------------------
-2023-Feb-19:16:54:18,656 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:54:26,005 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:54:26,005 INFO     [main.py:54] --------------------
-2023-Feb-19:16:59:24,903 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:59:26,798 INFO     [main.py:134] Keep the previous best model weight: 0.136
-2023-Feb-19:16:59:26,799 INFO     [main.py:54] --------------------
+2023-Feb-21:20:11:55,413 INFO     [train.py:161] Namespace(config='basic.yml')
+2023-Feb-21:20:11:55,413 INFO     [train.py:162] {'API': {'device': 'cpu',
+         'height': 416,
+         'upload_folder': './static',
+         'width': 416},
+ 'classes': 100,
+ 'columns': {'fold': False,
+             'images': 'filepaths',
+             'labels': 'labels',
+             'split': 'data set'},
+ 'csv_file_path': '/home/linlin/dataset/sports_kaggle/sports.csv',
+ 'device': 'cuda',
+ 'epochs': 10,
+ 'learning_rate': '1e-3',
+ 'model': 'SwinTransformer',
+ 'numpy_test': False,
+ 'onnx': {'saved_onnx_path': './SwinTransformer_sports_classification.onnx',
+          'use_onnx': True},
+ 'parent_dataset_dir': '/home/linlin/dataset/sports_kaggle/',
+ 'pretrained_model_path': './SwinTransformer_sports_classification.pt',
+ 'saved_label_path': './label.json',
+ 'saved_model_path': './SwinTransformer_sports_classification.pt',
+ 'tensorboard_name': 'mela_api',
+ 'train': {'batch_size': 8, 'height': 224, 'width': 224},
+ 'valid': {'batch_size': 16, 'height': 224, 'width': 224}}
+2023-Feb-21:20:11:57,810 INFO     [helpers.py:247] Loading pretrained weights from url (https://github.com/SwinTransformer/storage/releases/download/v1.0.0/swin_base_patch4_window7_224_22kto1k.pth)
+2023-Feb-21:20:11:59,343 INFO     [train.py:241] pretrained_model.dict: dict_keys(['epoch', 'weight', 'optimizer', 'scheduler', 'epoch_acc_score'])
+2023-Feb-21:20:11:59,350 INFO     [train.py:246] load pretrained model with 0.604
+2023-Feb-21:20:11:59,351 INFO     [train.py:38] --------------------
+2023-Feb-21:20:29:48,888 INFO     [train.py:124] Record: {'epoch': 0, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5141, 'epoch_acc_score': 0.5685}
+2023-Feb-21:20:38:16,753 INFO     [train.py:124] Record: {'epoch': 0, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2537, 'epoch_acc_score': 0.6291}
+2023-Feb-21:20:38:16,755 INFO     [train.py:38] --------------------
+2023-Feb-21:21:00:36,769 INFO     [train.py:124] Record: {'epoch': 1, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5113, 'epoch_acc_score': 0.5936}
+2023-Feb-21:21:06:57,292 INFO     [train.py:124] Record: {'epoch': 1, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2524, 'epoch_acc_score': 0.6523}
+2023-Feb-21:21:06:57,292 INFO     [train.py:38] --------------------

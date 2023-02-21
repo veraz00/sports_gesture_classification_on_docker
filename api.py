@@ -75,7 +75,7 @@ def predict(image_path, height, width, model, device, use_onnx):
         predict_label = torch.argmax(out, dim = -1)  # batch, 1
 
         # print('time: ', (time.time() - start))
-        # print('predict result', predict_label.item(), label_list[predict_label.item()])
+        # print('predict result', predict_label.item(), labels[predict_label.item()])
         return predict_label.item()
 
 
@@ -101,7 +101,7 @@ def upload_predict():
                 logger.info('passed the image check')
 
             pred_index = predict(image_location, h, w, model, device, use_onnx)  # label index
-            pred_label = label_list[pred_index]
+            pred_label = labels[pred_index]
             logger.info(f'prediction result: {pred_index}, {pred_label}')
 
             return render_template("index.html", prediction=pred_label, label = pred_index, image_loc=image_file.filename)
@@ -124,25 +124,25 @@ if __name__ == "__main__":
     logger.info(pprint.pformat(args))
     logger.info(pprint.pformat(cfg))
 
-    label_list = list(json.load(open(cfg['saved_label_path'])).keys())
-    logger.info(f'label_list: {" ".join(i for i in label_list)}')
+    labels = list(json.load(open(cfg['saved_label_path'])).keys())
+    logger.info(f'labels: {" ".join(i for i in labels)}')
 
     upload_folder = cfg['API']['upload_folder']
     device = 'cuda' if cfg['API']['device'] == 'cuda' and torch.cuda.is_available() else 'cpu'
     logger.info(f'upload_folder: {upload_folder}, device: {device}')
 
 
-    model = DenseNet121(num_class= len(label_list))
+    model = DenseNet121(num_class= len(labels)) if cfg['model'] == 'DenseNet121' else SwinTransformer(num_class= len(labels))
     model_state = torch.load(cfg['saved_model_path'], map_location = torch.device(device))['weight']
     model.load_state_dict(model_state)
     model.to(device)
-    logger.info('Loaded model!')
+    logger.info('Loaded %s model!', cfg['model'])
 
     use_onnx = cfg['onnx']['use_onnx']
     w = cfg['API']['width']
     h = cfg['API']['height']
     if use_onnx:
-        logger.info('use onnx model')
+        logger.info('use %s onnx model', cfg['model'])
 
         onnx_model_path = cfg['onnx']['saved_onnx_path']
         if not os.path.exists(onnx_model_path):

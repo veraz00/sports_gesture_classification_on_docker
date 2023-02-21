@@ -1,16 +1,53 @@
+# Docker Environment
+
+## Build Docker
+
 ```
 docker build -t mela_api:<tag> .
-docker build -t mela_api .   # build image 
-docker run -v /home/linlin/dataset/sports_kaggle/:/home/linlin/dataset/sports_kaggle/ \
+# docker build -t <image name> .   # build image 
+
+# run docker without gpu
+docker run \
 -it \
 --rm \
-mela_api:latest
+-p 12000:12000 \
+-p 6006:6006 \
+-v /home/linlin/dataset/sports_kaggle:/home/linlin/dataset/sports_kaggle \
+-v /home/linlin/ll_docker/melanoma-deep-learning/docker_model/mela_api:/home/linlin/melanoma-deep-learning/mela_api \
+mela_api:v2 
+
+# docker run -v $host_path:$container_path
+# -v /home/linlin/ll_docker/melanoma-deep-learning/docker_model/mela_api:/home/linlin/melanoma-deep-learning/mela_api \
+mela_api:v1 -- mount the events files from mela_api into ./docker_model/mela_api folder (but files are still on docker container, not locally exist)
+# -p host_port:container_port, 12000 for flask, 6006 for tensorboard
+# run docker with gpu
 ```
+## Train it 
+```
+python3 main.py
+```
+
+
+## Access the tensorboard in Docker  
+- run `python3 -m tensorboard.main --logdir=. --bind_all` on container
+- On the local pc: `localhost:6006`
+
+
+## Run api 
+```
+python3 api.py 
+```
+- in local pc: go to `localhost:12000` to go to flask api 
+
+
+
+
+## Acess 
 
 ## Modify the file inside the docker (so docker image would be updated) 
 
 ```
-docker run -v /home/linlin/dataset/sports_kaggle/:/home/linlin/data \
+docker run -v /home/linlin/dataset/sports_kaggle/:/home/linlin/dataset/sports_kaggle/ \
 -it \
 --rm \
 mela_api:latest  # docker run: create a new container 
@@ -41,16 +78,3 @@ docker save mela_api:latest --output docker_image_mela_api.tar
 docker load --input *.tar  #  It restores both images and tags.
 docker load < *.tar
 ```
-
-- specific character (refer: https://steemit.com/bash/@elliotyagami/bash-difference-between-or-and-or-or-and-and-and)
-
-    - | : It is the pipe operator. It passes the stdout of first command to the next command : `docker save myimage:latest | gzip > docker_mela_api.tar.gz`
-    - ||: It is like the boolean or operator. If the first half succeeds then don't executable the second half.
-    - &&: It is like the boolean and operator. Executable both halves.
-    - `&`: It starts a asynchronous process.
-
-
-
-
-
-## use the current script to build docker image 

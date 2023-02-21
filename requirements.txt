@@ -11,3 +11,7 @@ tqdm==4.64.1
 opencv-python-headless==4.7.0.68 
 pyyaml
 tensorboardX
+tensorboard
+onnx==1.13.0
+onnxruntime
+timm
