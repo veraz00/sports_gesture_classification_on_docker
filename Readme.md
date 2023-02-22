@@ -6,6 +6,10 @@
   - The model use **Swin Transformer** (accuracy = 80% on validation dataset)
   - Set a Dockerfile for training and flask API
   - Provide `onnx` (CPU device) and `pt` (GPU device) to fasten the prediction time 
+    | weight | prediction time on cpu (ms) | prediction time on gpu (ms) |
+    | --| -- | -- |
+    | pt | 0.1821 | 0.0219 |
+    | onnx | 0.1062 | 0.0386 |
 
 ## Dataset 
 [Kaggle Sports Gesture](https://www.kaggle.com/datasets/gpiosenka/sports-classification)
@@ -52,7 +56,7 @@ docker: Error response from daemon: could not select device driver "" with capab
 
 
 ## Refer
-1. [melanoma classification](https://www.youtube.com/watch?v=Kzrfw-tAZew
-https://github.com/abhishekkrthakur/melanoma-deep-learning)
+1. Inspired from melanoma classification: https://www.youtube.com/watch?v=Kzrfw-tAZew
+https://github.com/abhishekkrthakur/melanoma-deep-learning
 2. [Kaggle: Sports Gesture Classification](https://www.kaggle.com/datasets/gpiosenka/sports-classification)
 3. [SwinTransformer from Timm](https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer)
