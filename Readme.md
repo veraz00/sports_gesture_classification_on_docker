@@ -1,25 +1,36 @@
 # Sports Gesture Classification
 
+## Overview 
+- This is an API for sports gesture image classification
+- Features
+  - The model use **Swin Transformer** (accuracy = 80% on validation dataset)
+  - Set a Dockerfile for training and flask API
+  - Provide `onnx` (CPU device) and `pt` (GPU device) to fasten the prediction time 
 
-- modify readme
-## training
-- SwinTransformer: https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer
+## Dataset 
+[Kaggle Sports Gesture](https://www.kaggle.com/datasets/gpiosenka/sports-classification)
+- Classes: 100
+- Size: 224 X224 X 3
+- Format: `.jpg` 
+- Number of images: 14572 (train: 4572 , valid: 500, test: 500)
 
-`tensorboard --logdir=mela_api`
+## Train
+```
+python3 train.py
+```
+- Model:[SwinTransformer from Timm](https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer)
+- Check the process on Tensorboard: `tensorboard --logdir = mela_api`
+
+## Add Flask
+```
+python3 api.py
+```
+- Browser: `http://localhost:12000/`
 
 
-## add flask
-`http://localhost:12000/`
-- convert it into tensorrt
-- to run it as tensorrt for prediction 
+## Build on Docker 
+[Steps about running all on Docker](attached/Build_docker_image.md)
 
-
-## docker 
-- run tensorboard 
-- docker
-  - run it with gpu, 
-  - create a new one using current script 
-  - get a docker image with well-training using current script 
 
 ## Error 
 ### Training model
@@ -31,25 +42,17 @@ RuntimeError: CUDA error: CUBLAS_STATUS_INVALID_VALUE when calling `cublasSgemm(
 ```
 - Solution: `unset LD_LIBRARY_PATH`
 
-
-2. url perssion
-- Error: `urllib.error.URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1131)>`
-- Solution
-```
-import ssl
-ssl._create_default_https_context = ssl._create_unverified_context
-```
-3. get error:  ??
+2. Docker GPU error
 ```
 docker: Error response from daemon: could not select device driver "" with capabilities: [[gpu]].
 ```
-
-- solution: reinstall docker, refer: [install docker on ubuntu](intallation.md)
-
+- Don't use GPU on docker temporarily
+- Wait solution?? 
 
 
 
 ## Refer
-https://www.youtube.com/watch?v=Kzrfw-tAZew
-https://github.com/abhishekkrthakur/melanoma-deep-learning
-
+1. [melanoma classification](https://www.youtube.com/watch?v=Kzrfw-tAZew
+https://github.com/abhishekkrthakur/melanoma-deep-learning)
+2. [Kaggle: Sports Gesture Classification](https://www.kaggle.com/datasets/gpiosenka/sports-classification)
+3. [SwinTransformer from Timm](https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer)

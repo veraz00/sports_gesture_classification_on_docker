@@ -33,3 +33,31 @@
 2023-Feb-21:21:00:36,769 INFO     [train.py:124] Record: {'epoch': 1, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5113, 'epoch_acc_score': 0.5936}
 2023-Feb-21:21:06:57,292 INFO     [train.py:124] Record: {'epoch': 1, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2524, 'epoch_acc_score': 0.6523}
 2023-Feb-21:21:06:57,292 INFO     [train.py:38] --------------------
+2023-Feb-21:21:25:29,313 INFO     [train.py:124] Record: {'epoch': 2, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5095, 'epoch_acc_score': 0.6082}
+2023-Feb-21:21:31:45,373 INFO     [train.py:124] Record: {'epoch': 2, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.252, 'epoch_acc_score': 0.66}
+2023-Feb-21:21:31:45,373 INFO     [train.py:38] --------------------
+2023-Feb-21:21:50:16,820 INFO     [train.py:124] Record: {'epoch': 3, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5093, 'epoch_acc_score': 0.6096}
+2023-Feb-21:21:56:33,584 INFO     [train.py:119] Keep the previous best model weight: 0.66
+2023-Feb-21:21:56:33,584 INFO     [train.py:124] Record: {'epoch': 3, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.252, 'epoch_acc_score': 0.6584}
+2023-Feb-21:21:56:33,585 INFO     [train.py:38] --------------------
+2023-Feb-21:22:15:59,905 INFO     [train.py:124] Record: {'epoch': 4, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5081, 'epoch_acc_score': 0.6191}
+2023-Feb-21:22:22:11,111 INFO     [train.py:124] Record: {'epoch': 4, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2506, 'epoch_acc_score': 0.684}
+2023-Feb-21:22:22:11,111 INFO     [train.py:38] --------------------
+2023-Feb-21:22:40:42,444 INFO     [train.py:124] Record: {'epoch': 5, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5063, 'epoch_acc_score': 0.6371}
+2023-Feb-21:22:46:57,608 INFO     [train.py:119] Keep the previous best model weight: 0.684
+2023-Feb-21:22:46:57,609 INFO     [train.py:124] Record: {'epoch': 5, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2509, 'epoch_acc_score': 0.6783}
+2023-Feb-21:22:46:57,611 INFO     [train.py:38] --------------------
+2023-Feb-21:23:05:31,753 INFO     [train.py:124] Record: {'epoch': 6, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.506, 'epoch_acc_score': 0.6393}
+2023-Feb-21:23:11:52,781 INFO     [train.py:124] Record: {'epoch': 6, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2499, 'epoch_acc_score': 0.6954}
+2023-Feb-21:23:11:52,781 INFO     [train.py:38] --------------------
+2023-Feb-21:23:30:40,014 INFO     [train.py:124] Record: {'epoch': 7, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.505, 'epoch_acc_score': 0.6473}
+2023-Feb-21:23:36:29,237 INFO     [train.py:124] Record: {'epoch': 7, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2493, 'epoch_acc_score': 0.7071}
+2023-Feb-21:23:36:29,238 INFO     [train.py:38] --------------------
+2023-Feb-21:23:56:18,344 INFO     [train.py:124] Record: {'epoch': 8, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5047, 'epoch_acc_score': 0.65}
+2023-Feb-22:00:02:26,003 INFO     [train.py:119] Keep the previous best model weight: 0.7071
+2023-Feb-22:00:02:26,003 INFO     [train.py:124] Record: {'epoch': 8, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.25, 'epoch_acc_score': 0.6936}
+2023-Feb-22:00:02:26,003 INFO     [train.py:38] --------------------
+2023-Feb-22:00:21:03,086 INFO     [train.py:124] Record: {'epoch': 9, 'stage': 'train', 'lr': 0.001, '(batch) loss': 0.5047, 'epoch_acc_score': 0.6518}
+2023-Feb-22:00:27:33,194 INFO     [train.py:119] Keep the previous best model weight: 0.7071
+2023-Feb-22:00:27:33,194 INFO     [train.py:124] Record: {'epoch': 9, 'stage': 'valid', 'lr': 0.001, '(batch) loss': 0.2496, 'epoch_acc_score': 0.7016}
+2023-Feb-22:00:27:33,261 INFO     [train.py:252] finish training!

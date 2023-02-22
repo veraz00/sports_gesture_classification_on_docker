@@ -1,61 +1,94 @@
-# Steps on Building Docker Image 
-- every time when changing code locally, re-run docker build to update docker image 
+# Docker Environment
 
-- how to acess the dataset 
-    - volumes are folder on the host machine which can be mapped into docker container 
+## Install Docker Server & Client 
+```
+# remove the installed docker
+sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+sudo rm -rf /var/lib/docker
+sudo rm -rf /var/lib/containerd
 
-- Docker image is named with <image name>:<tag name>, if no tag name, tag name = latest 
-- Container is from docker image <image name>:<tag name>, then it would be added with a container name 
+# install
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
+# check docker version
+docker version
+```
+![](docker_version.jpg)
+
+## Build Docker
 
 ```
-docker build -f Dockerfile -t linlin/mela_train:version1 .    
-# build a docker image named as mela_train
-# docker build -t <USER>/<CONTAINER>:<VERSION>  
+# build image 
+docker build -t mela_api:<tag> .
 
+# run docker without gpu
+docker run \
+-it \
+--rm \
+-p 12000:12000 \
+-p 6006:6006 \
+-v /home/linlin/dataset/sports_kaggle:/home/linlin/dataset/sports_kaggle \
+-v /home/linlin/ll_docker/melanoma-deep-learning/docker_model/mela_api:/home/linlin/melanoma-deep-learning/mela_api \
+mela_api:v2 
 
-docker run --gpus all -v /home/linlin/dataset/sports_kaggle/:/home/linlin/data -ti linlin/mela_train:version1 python3 main.py nvidia-smi --rm
-# -it is short for --interactive + --tty . When you docker run with this command it takes you straight inside the container.
-# -d is short for --detach , which means you just run the container and then detach from it. Essentially, you run container in the background
-# --rm	Automatically remove the container when it exits
-# docker run image_name:tag_name. If you didn't specify tag_name it will automatically run an image with the 'latest' tag. Instead of image_name , you can also specify an image ID (no tag_name).
-
+# -v $host_path:$container_path
+# -v /home/linlin/ll_docker/melanoma-deep-learning/docker_model/mela_api:/home/linlin/melanoma-deep-learning/mela_api \
+mela_api:v1 -- mount the events files from mela_api into ./docker_model/mela_api folder (but files are still on docker container, not locally exist)
+# -p host_port:container_port, 12000 for flask, 6006 for tensorboard
 ```
 
-## command 
+## Train in Docker Container
 ```
-# check the docker images  vs docker images ls
-docker images -a 
-
-# remove docker images 
-docker rmi <docker id: 58db3edaf>
-docker rmi $(docker images -q)  # -q: list only image id
-
-# check the docker containers 
-docker ps -a 
-docker stop <container id>
-docker stop $(docker ps -a)
-docker rm <container_id>
+python3 train.py
 ```
-??  update into ll_dendron
+
+### Access the Tensorboard in Docker  
+- Run `python3 -m tensorboard.main --logdir=. --bind_all` on container
+- In local pc: `localhost:6006`
 
 
-
-## How create virtual environment in docker 
+## Run API in Docker Container
 ```
-in Dockerfile
-RUN cd /home/linlin/app/ && source mela_env/bin/activate
-# do not copy environment into docker file, else: create a virtual environment and pip install and activate it 
+python3 api.py 
+```
+- In local pc: go to `localhost:12000` to go to flask api 
 
-FROM python:3.9-slim-bullseye
 
-RUN python3 -m venv /opt/venv
+## Acess 
 
-# # Install dependencies:
-COPY requirements.txt .
-RUN . /opt/venv/bin/activate && pip install -r requirements.txt
+- Modify the file inside the docker (so docker image would be updated) 
 
-# # Run the application:
-COPY myapp.py .
-CMD . /opt/venv/bin/activate && exec python myapp.py
+    - terminal 1
+    ```
+    docker run -v /home/linlin/dataset/sports_kaggle/:/home/linlin/dataset/sports_kaggle/ \
+    -it \
+    --rm \
+    mela_api:<tag>  # docker run: create a new container    
+    ```
+
+    - terminal 2 
+    ```
+    docker exec -it mela_api:<tag> /bin/bash  # docker exec: run command on running container
+    # modify the file
+    # ctrl + d exit
+    docker commit -m "message" <container id> mela_api:<tag>
+    ```
+
+## Save Weights from Container
+```
+# Syntax to Copy from Container to Docker Host  
+docker cp {options} CONTAINER:SRC_PATH DEST_PATH 
+
+# Syntax to Copy from Docker Host to Container  
+docker cp {options} SRC_PATH CONTAINER:DEST_PATH 
+```
+
+## Save Image
+```
+docker save mela_api:<tag> > docker_mela_api.tar
+docker save myimage:<tag> | gzip > docker_image_mela_api.tar.gz
+docker save mela_api:<tag> --output docker_image_mela_api.tar
+
+docker load --input *.tar  #  It restores both images and tags.
+docker load < *.tar
 ```

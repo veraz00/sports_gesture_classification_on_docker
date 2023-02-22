@@ -16,6 +16,7 @@ RUN useradd -m linlin
 # chown -R <past_owner>:<current_owner> the target directory
 RUN chown -R linlin:linlin /home/linlin/  
 
+# do not copy environment into docker file, instead, create a virtual environment and pip install and activate it 
 COPY --chown=linlin . /home/linlin/melanoma-deep-learning/
 
 USER linlin
