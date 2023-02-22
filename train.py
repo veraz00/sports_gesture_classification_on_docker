@@ -175,41 +175,6 @@ def main(args):
     valid_datasets = Sports_Dataset(dataset_dir=parent_data_dir, labels=label_list, \
                 transform = image_transforms(height = cfg['valid']['height'], width = cfg['valid']['width'], phase = 'valid'))
     
-    # csv_file_path = cfg['csv_file_path']
-    # df  = pd.read_csv(csv_file_path)
-    # csv_column = {'images': cfg['columns']['images'], 'labels': cfg['columns']['labels'], 'split': cfg['columns']['split']}  # how to upgrade it 
-    # target_dict = {vv: i for i, vv in enumerate(df[csv_column['labels']].unique())}
-    # with open(cfg['saved_label_path'], 'w') as ff:
-    #     json.dump(target_dict, ff)
-    # logger.info('len of target_dict: %s', len(target_dict))
-
-    # if csv_column['split'] == 'fold':
-    #     df_train = df[df[csv_column['split']] != cfg['columns']['fold']].reset_index(drop=True)  # need to run create_fold to generate the fold 
-    #     df_valid = df[df[csv_column['split']] == cfg['columns']['fold']].reset_index(drop=True)
-    # else:
-    #     df_train = df[df[csv_column['split']] == 'train'].reset_index(drop=True)
-    #     df_valid = df[df[csv_column['split']] == 'valid'].reset_index(drop=True)
-
-    # # train_data_path = "/home/linlin/data"
-    # # model_path = './'
-    # # df = pd.read_csv(os.path.join(train_data_path, 'sports_with_fold.csv'))
-
-
-    # train_images, train_targets = generate_images_labels_from_csv(df_train, parent_data_dir, target_dict, \
-    #                                                 label_column=csv_column['labels'], \
-    #                                                 image_column=csv_column['images'])
-
-    # valid_images, valid_targets = generate_images_labels_from_csv(df_valid, parent_data_dir, target_dict, \
-    #                                                 label_column=csv_column['labels'], \
-    #                                                 image_column=csv_column['images'])
-    
-
-
-    # train_datasets = Custom_dataset(image_list = train_images, label_list = train_targets, \
-    #                 transform = image_transforms(height = cfg['train']['height'], width = cfg['train']['width'], phase = 'train'))
-    # valid_datasets = Custom_dataset(image_list = valid_images, label_list = valid_targets, \
-    #                 transform = image_transforms(height = cfg['valid']['height'], width = cfg['valid']['width'], phase = 'valid'))
-    
     batch_sizes = {'train': cfg['train']['batch_size'], 'valid': cfg['valid']['batch_size']}
 
     data_loaders = {'train': DataLoader(train_datasets, batch_size = batch_sizes['train'], shuffle = True), \
