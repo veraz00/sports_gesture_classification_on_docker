@@ -12,9 +12,8 @@
     | onnx | 0.1062 | 0.0386 |
 
 - Demo
-<figure class="video_container">
-  <iframe src="attached/pc_and_docker.mp4" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
+https://youtu.be/2DWbemtVgis
+
 
 ## Dataset 
 [Kaggle Sports Gesture](https://www.kaggle.com/datasets/gpiosenka/sports-classification)
