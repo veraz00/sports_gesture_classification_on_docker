@@ -59,4 +59,4 @@ docker: Error response from daemon: could not select device driver "" with capab
 1. Inspired from sportsnoma classification: https://www.youtube.com/watch?v=Kzrfw-tAZew
 https://github.com/abhishekkrthakur/sportsnoma-deep-learning
 2. [Kaggle: Sports Gesture Classification](https://www.kaggle.com/datasets/gpiosenka/sports-classification)
-3. [SwinTransformer from Timm](https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer)
+3. [Kaggle Sports Gesture Competition: SwinTransformer from Timm](https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer)
