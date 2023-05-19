@@ -1,5 +1,5 @@
 **/apex
-**/mela_env
+**/sport_env
 **__pycache__**
 **/*.pt
 **/*.onnx

@@ -1,7 +1,5 @@
 # How to install docker File 
 
-??  update into ll_dendron
-
 1. Install client and server docker
 ```
 sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
@@ -10,7 +8,6 @@ sudo rm -rf /var/lib/containerd
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo docker version 
-
 ````
 
 - If installation was successful, it would return 
@@ -44,16 +41,17 @@ Server: Docker Engine - Community
   Version:          0.19.0
   GitCommit:        de40ad0
 ```
-2. install nvidia-container 
+
+2. Install nvidia-container 
 refer: [installation on ubuntu](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html)
 
 - If installation was successful, run 
 ```
-$ sudo docker run --rm --runtime=nvidia --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
+sudo docker run --rm --runtime=nvidia --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
 {nvidia-smi local version}
 ```
 
-## Error 
+# Error 
 1. `Docker with GPU: "Failed to initialize NVML: Unknown Error"`
 - Solution: https://bbs.archlinux.org/viewtopic.php?id=266915
 
@@ -98,7 +96,7 @@ sudo systemctl disable nvidia-persistenced.service
 - Persistence mode can be set using nvidia-smi or programmaticaly via the NVML API. To enable persistence mode using nvidia-smi (as root): nvidia-smi -i <target gpu> -pm ENABLED 
 
 
-3. issues 
+3. Issues 
 
 ```
 linlin@linlin:~$ sudo apt-get update

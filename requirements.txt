@@ -2,7 +2,7 @@ albumentations
 flask
 pretrainedmodels
 torch==1.13.1    
-torchmetrics==0.11.1 
+torchmetrics
 torchvision==0.14.1
 pandas==1.5.3
 # sklearn==0.0.post1
@@ -14,4 +14,8 @@ tensorboardX
 tensorboard
 onnx==1.13.0
 onnxruntime
-timm
+timm==0.6.12
+
+# debug 
+icecream
+torchsummary

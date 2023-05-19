@@ -1,7 +1,7 @@
 import torchvision.models as models 
 import torch.nn as nn 
 import torch 
-
+from torchsummary import summary 
 import timm 
 
 class DenseNet121(nn.Module):
@@ -41,3 +41,4 @@ if __name__ == '__main__':
     sample = torch.randn(1, 3, 224, 224)
     _, out = model(sample)
     print('out.size: ', out.shape)
+    summary(model, (3, 224, 224))

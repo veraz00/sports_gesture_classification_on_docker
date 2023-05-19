@@ -1,7 +1,7 @@
 import os
 import logging 
 import pprint
-
+from icecream import ic 
 import torch
 import torch.nn as nn
 from torch import cuda
@@ -28,7 +28,7 @@ from utils import *
 
 
 def train(model, data_loaders, optimizer, scheduler, criterion, best_acc_score, cfg, logger):
-    writer = SummaryWriter(cfg['tensorboard_name'] if cfg['tensorboard_name'] else 'mela_api')
+    writer = SummaryWriter(cfg['tensorboard_name'] if cfg['tensorboard_name'] else 'sports_api')
     num_epochs = cfg['epochs']
     device = cfg['device']
     numpy_test = cfg['numpy_test']
@@ -73,6 +73,8 @@ def train(model, data_loaders, optimizer, scheduler, criterion, best_acc_score, 
         
                         # Forward
                         _, out = model(imgs)  # out.shape = bs, 100
+                        # ic(labels.shape)
+                        # ic(out.shape)
                         loss = criterion(out, labels)
 
                         # backward + optimize only if in training phase
