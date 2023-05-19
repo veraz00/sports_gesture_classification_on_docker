@@ -11,6 +11,11 @@
     | pt | 0.1821 | 0.0219 |
     | onnx | 0.1062 | 0.0386 |
 
+- Demo
+<figure class="video_container">
+  <iframe src="attached/pc_and_docker.mp4" frameborder="0" allowfullscreen="true"> </iframe>
+</figure>
+
 ## Dataset 
 [Kaggle Sports Gesture](https://www.kaggle.com/datasets/gpiosenka/sports-classification)
 - Classes: 100
@@ -30,6 +35,7 @@ python3 train.py
 python3 api.py
 ```
 - Browser: `http://localhost:12000/`
+
 
 
 ## Run on Docker 
@@ -52,7 +58,6 @@ docker: Error response from daemon: could not select device driver "" with capab
 ```
 - Don't use GPU on docker temporarily
 - Wait solution ??
-
 
 
 ## Refer

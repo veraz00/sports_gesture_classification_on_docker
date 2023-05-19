@@ -131,20 +131,22 @@ if __name__ == "__main__":
     device = 'cuda' if cfg['API']['device'] == 'cuda' and torch.cuda.is_available() else 'cpu'
     logger.info(f'upload_folder: {upload_folder}, device: {device}')
 
-
-    model = DenseNet121(num_class= len(labels)) if cfg['model'] == 'DenseNet121' else SwinTransformer(num_class= len(labels))
-    model_state = torch.load(cfg['saved_model_path'], map_location = torch.device(device))['weight']
-    model.load_state_dict(model_state)
-    model.to(device)
-    logger.info('Loaded %s model!', cfg['model'])
-
     use_onnx = cfg['onnx']['use_onnx']
     w = cfg['API']['width']
     h = cfg['API']['height']
+    onnx_model_path = cfg['onnx']['saved_onnx_path']
+
+    if use_onnx == False or os.path.exists(onnx_model_path) == False:
+        model = DenseNet121(num_class= len(labels)) if cfg['model'] == 'DenseNet121' else SwinTransformer(num_class= len(labels))
+        model_state = torch.load(cfg['saved_model_path'], map_location = torch.device(device))['weight']
+        model.load_state_dict(model_state)
+        model.to(device)
+        logger.info('Loaded %s model!', cfg['model'])
+
+
     if use_onnx:
         logger.info('use %s onnx model', cfg['model'])
-
-        onnx_model_path = cfg['onnx']['saved_onnx_path']
+        
         if not os.path.exists(onnx_model_path):
             logger.info('not find onnx model. export it now')
 
@@ -163,4 +165,4 @@ if __name__ == "__main__":
         model  = ort.InferenceSession(onnx_model_path, providers = providers)
         
 
-    app.run(host="0.0.0.0", port=12000, debug=True)
+    app.run(host="0.0.0.0", port=12001, debug=True)

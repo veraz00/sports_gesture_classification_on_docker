@@ -53,7 +53,7 @@ python3 train.py
 ### Access the Tensorboard in Docker  
 - Run `python3 -m tensorboard.main --logdir=. --bind_all` on container
 - In local pc: `localhost:6006`
-
+?? video 
 
 
 ## Data Transfer between container and local

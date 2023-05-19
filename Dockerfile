@@ -19,12 +19,12 @@ RUN chown -R linlin:linlin /home/linlin/
 
 # COPY --chown=<user>:<group> <hostPath> <containerPath>    
 # do not copy environment into docker file, add environment path into `.dockerignore`
-COPY --chown=linlin . /home/linlin/sportsnoma-deep-learning/
+COPY --chown=linlin . /home/linlin/sport_gesture_classification_on_docker/
 
 USER linlin
 
-RUN cd /home/linlin/sportsnoma-deep-learning/ && pip3 install -r requirements.txt
+RUN cd /home/linlin/sport_gesture_classification_on_docker/ && pip3 install -r requirements.txt
 
-WORKDIR /home/linlin/sportsnoma-deep-learning
+WORKDIR /home/linlin/sport_gesture_classification_on_docker/
 
 
