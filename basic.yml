@@ -1,0 +1,53 @@
+# dataset 
+
+csv_file_path: /home/linlin/dataset/sports_kaggle/sports.csv
+classes: 100
+columns:
+  images: filepaths 
+  labels: labels 
+  split: data set  # split: fold
+  fold: False # 
+parent_dataset_dir:  /home/linlin/dataset/sports_kaggle/
+saved_label_path: ./label.json # used in api
+
+
+
+# train  # 2 spaces
+model: SwinTransformer # DenseNet121
+train:
+  width: 224
+  height: 224
+  batch_size: 4
+valid:
+  width: 224
+  height: 224
+  batch_size: 8 
+
+pretrained_model_path: '' 
+saved_model_path: ./SwinTransformer_sports_classification.pt # used in api
+learning_rate: 1e-3 
+epochs: 10
+numpy_test: False
+
+tensorboard_name: sports_api 
+device: cuda
+numpy_test: False
+
+
+# flask
+API:
+  upload_folder: ./static
+  device: cuda
+  width: 224
+  height: 224   # swintransformer: need the same shape as the trained one 
+  
+onnx:
+  use_onnx: True
+  saved_onnx_path: ./SwinTransformer_sports_classification.onnx
+
+# tensorrt 
+# tensorrt:
+#   width: 416
+#   height: 416
+#   device: cuda
+#   trt_model_path: ./Densenet121_sports_classification.ts
