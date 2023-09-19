@@ -13,7 +13,7 @@ saved_label_path: ./label.json # used in api
 
 
 # train  # 2 spaces
-model: SwinTransformer # DenseNet121
+model: DenseNet121 # DenseNet121
 train:
   width: 224
   height: 224
@@ -24,9 +24,9 @@ valid:
   batch_size: 8 
 
 pretrained_model_path: '' 
-saved_model_path: ./SwinTransformer_sports_classification.pt # used in api
+saved_model_path: './DenseNet121.pt' # used in api
 learning_rate: 1e-3 
-epochs: 10
+epochs: 2 
 numpy_test: False
 
 tensorboard_name: sports_api 

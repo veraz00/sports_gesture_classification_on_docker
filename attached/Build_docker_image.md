@@ -23,7 +23,8 @@ docker version
 
 ```
 # build image 
-docker build -t sports_api:<tag> .
+docker build -t sports_api:<tag> . 
+# --no-cache (normally when it failed, it would build from the failed layer, with `--no-cache`, it would remove all the cache and build from the start)
 
 # run docker without gpu
 docker run \

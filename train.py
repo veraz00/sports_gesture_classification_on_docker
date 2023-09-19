@@ -172,10 +172,10 @@ def main(args):
     target_dict = {vv: i for i, vv in enumerate(label_list)}
     assert len(label_list) == cfg['classes']
     train_datasets = Sports_Dataset(dataset_dir=parent_data_dir, labels=label_list, \
-                    transform = image_transforms(height = cfg['train']['height'], width = cfg['train']['width'], phase = 'train'))
+            transform = image_transforms(height = cfg['train']['height'], width = cfg['train']['width'], phase = 'train'))
     
     valid_datasets = Sports_Dataset(dataset_dir=parent_data_dir, labels=label_list, \
-                transform = image_transforms(height = cfg['valid']['height'], width = cfg['valid']['width'], phase = 'valid'))
+            transform = image_transforms(height = cfg['valid']['height'], width = cfg['valid']['width'], phase = 'valid'))
     
     batch_sizes = {'train': cfg['train']['batch_size'], 'valid': cfg['valid']['batch_size']}
 

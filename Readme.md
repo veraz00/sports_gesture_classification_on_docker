@@ -5,14 +5,16 @@
 - Features
   - The model use **Swin Transformer** (accuracy = 80% on validation dataset)
   - Run training and flask API on **Docker container**
-  - Provide `onnx` (CPU device) and `pt` (GPU device) to fasten the prediction time 
-    | weight | prediction time on cpu (ms) | prediction time on gpu (ms) |
-    | --| -- | -- |
-    | pt | 0.1821 | 0.0219 |
-    | onnx | 0.1062 | 0.0386 |
+  - Provide `onnx` (CPU device) 
 
 - Demo
 https://youtu.be/2DWbemtVgis
+
+## Run 
+- Build a docker based on `DockerFile`
+- Train: `bash train.sh` 
+- Flask api: `bash api.sh`
+    - Browser: `http://localhost:12000/`
 
 
 ## Dataset 
@@ -25,15 +27,9 @@ https://youtu.be/2DWbemtVgis
 ## Train
 The training code is from [Kaggle Sports Gesture Competition: SwinTransformer from Timm](https://www.kaggle.com/code/pkbpkb0055/99-2-classification-using-swin-transformer)
 ```
-python3 train.py
+python3 train.py --config {config_file}
 ```
 - Check the process on Tensorboard: `tensorboard --logdir = sports_api`
-
-## Add Flask
-```
-python3 api.py
-```
-- Browser: `http://localhost:12000/`
 
 
 

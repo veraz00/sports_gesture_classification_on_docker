@@ -1,1 +1,1 @@
-python3 api.py --config basic.yml
+python3 api.py 
