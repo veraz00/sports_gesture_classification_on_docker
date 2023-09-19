@@ -1,0 +1,28 @@
+name: Python package
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3  # ??
+    - name: Set up Python 3.10
+      uses: actions/setup-python@V4  # ??
+      with:
+        python-version: 3.10
+    - name: Install dependencies
+      run: |
+        # Install Python dependencies
+        python -m pip install --upgrade pip
+        pip install ruff pytest  
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      # | in yaml: would regard it as multiple line 
+    - name: Test with pytest
+      run: |
+        pytest py_test/test_dataset.model
+        pytest pytest/test_api.py
+        
+
+
+
