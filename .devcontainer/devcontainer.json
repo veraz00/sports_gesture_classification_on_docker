@@ -1,0 +1,32 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
+{
+	"name": "Sports Gesture Classification Container",
+	"build": {
+		// Sets the run context to one level up instead of the .devcontainer folder.
+		"context": "..",
+		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+		"dockerfile": "../Dockerfile"
+	},
+	"remoteUser": "linlin",
+	"workspaceFolder": "/home/linlin/sport_gesture_classification_on_devcontainer",
+	"mounts": [
+		"source=/home/linlin/dataset/sports_kaggle/,target=/home/linlin/dataset/sports_kaggle,type=bind,consistency=cached",
+	],
+	// The `mount` property is used to specify the location of the dataset on the host machine and the location where it should be mounted inside the dev container. In this case, the dataset is located at `/home/linlin/dataset/sports_kaggle/` on the host machine and is mounted at `/home/linlin/dataset/sports_kaggle` inside the dev container.
+	// The `type` property is set to `bind`, which means that the dataset is mounted as a bind mount. This allows the dataset to be shared between the host machine and the dev container, and any changes made to the dataset inside the dev container will be reflected on the host machine.
+	// The `consistency` property is set to `cached`, which means that the dataset is mounted with cached consistency. This provides better performance when reading from the dataset, but changes made to the dataset on the host machine may not be immediately visible inside the dev container.
+	"features": {
+		"git": "latest"
+	}
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	// "features": {},
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+	// Uncomment the next line to run commands after the container is created.
+	// "postCreateCommand": "cat /etc/os-release",
+	// Configure tool-specific properties.
+	// "customizations": {},
+	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "devcontainer"
+}
