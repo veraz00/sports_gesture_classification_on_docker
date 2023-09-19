@@ -49,6 +49,7 @@ class Custom_dataset(Dataset):
     def __len__(self):
         return len(self.image_list)
 
+from icecream import ic 
  
 class Sports_Dataset(object):
     def __init__(self, dataset_dir, labels, transform, phase = 'train'):
@@ -65,8 +66,12 @@ class Sports_Dataset(object):
             self.image_list.extend(glob.glob(temp + '/*.*'))
             self.label_list.extend([self.labels.index(label)] * len(os.listdir(temp)))
             assert len(self.image_list) == len(self.label_list), f"The number of images is not equal to the number of labels"
+            if len(self.label_list) > 100:
+                break 
 
     def __getitem__(self, index):
+        ic(index)
+        # ic(self.image_list[index])
         image = cv2.imread(self.image_list[index]) #if cv2: cannot use pytorch.transpose
         label = self.label_list[index]
 
