@@ -1,0 +1,26 @@
+# error 
+```
+The setup method ‘route’ can no longer be called on the application. It has already handled its first request, any changes will not be applied consistently. Make sure all imports, decorators, functions, etc. needed to set up the application are done before running it.
+```
+- solution: during pytest: need to create app fixtures
+```
+  @pytest.fixture
+  def client():
+      app.config.update({"TESTING": True})
+  
+      with app.test_client() as client:
+          yield client
+  
+  def test_failure(client):
+      response = client.get('/null')
+```
+# check the workflow 
+
+img /= 255.0
+mean = [0.485, 0.456, 0.406] # Here it's ImageNet statistics
+std = [0.229, 0.224, 0.225]
+
+for i in range(3): # Considering an ordering NCHW (batch, channel, height, width)
+    img[i, :, :] -= mean[i]
+    img[i, :, :] /= std[i]
+
